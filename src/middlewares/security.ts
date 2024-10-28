@@ -4,7 +4,7 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import morgan from "morgan";
 
-export const applySecurity = (app: Express) => {
+export const applySecurityMiddlewares = (app: Express) => {
   app.use(cors());
   app.use(helmet());
   app.use(morgan("combined"));

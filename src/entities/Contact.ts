@@ -8,27 +8,32 @@ import {
 
 @Entity()
 export class Contact {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+  @PrimaryGeneratedColumn("increment")
+  id: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: "phone_number", type: "varchar" })
   phoneNumber: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: "email", type: "varchar" })
   email: string;
 
-  @Column({ nullable: true, type: "uuid" })
-  linkedId: string | null;
+  @Column({ nullable: true, type: "int", name: "linked_id" })
+  linkedId: number;
 
-  @Column({ type: "enum", enum: ["primary", "secondary"], default: "primary" })
+  @Column({
+    type: "enum",
+    enum: ["primary", "secondary"],
+    default: "primary",
+    name: "linked_precedence",
+  })
   linkPrecedence: "primary" | "secondary";
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: "created_at" })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: "updated_at" })
   updatedAt: Date;
 
   @Column({ nullable: true })
-  deletedAt: Date | null;
+  deletedAt: Date;
 }

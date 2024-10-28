@@ -1,15 +1,15 @@
 import dotenv from "dotenv";
+dotenv.config();
 import express, { Express, Request, Response } from "express";
 import "reflect-metadata";
-import { applySecurity } from "./middlewares/security";
+import { applySecurityMiddlewares } from "./middlewares/security";
 import { AppDataSource } from "./utils/db";
 import mainRoute from "./routes/route";
-
-dotenv.config();
+import { errorHandler } from "./utils/errorHandler";
 
 const app: Express = express();
 app.use(express.json());
-applySecurity(app);
+applySecurityMiddlewares(app);
 
 AppDataSource.initialize()
   .then(() => {
@@ -24,6 +24,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/api/", mainRoute);
+app.use(errorHandler);
 
 const PORT = process.env.PORT ?? 8000;
 
